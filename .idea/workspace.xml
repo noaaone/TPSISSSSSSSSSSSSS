@@ -4,21 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb5b23d8-f51c-4d57-a8d7-6292fca3a3d8" name="Changes" comment="create app">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/analytics/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orders/serializers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orders/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Laptuxoy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Laptuxoy.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="cb5b23d8-f51c-4d57-a8d7-6292fca3a3d8" name="Changes" comment="asd">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Laptuxoy/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Laptuxoy/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Laptuxoy/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Laptuxoy/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analytics/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/analytics/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orders/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/orders/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orders/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/orders/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/orders/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/orders/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/products/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/products/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,6 +70,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="Laptuxoy.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -141,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714224553068</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="asd">
+      <option name="closed" value="true" />
+      <created>1714231341826</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1714231341826</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,6 +158,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="create apps" />
     <MESSAGE value="create app" />
-    <option name="LAST_COMMIT_MESSAGE" value="create app" />
+    <MESSAGE value="asd" />
+    <option name="LAST_COMMIT_MESSAGE" value="asd" />
   </component>
 </project>

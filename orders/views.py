@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.http import JsonResponse
 from django.utils import timezone
@@ -38,11 +40,54 @@ def orders(request, page_number):
 
 
 def top_sales_by_hours(request):
-    return None
+    # Получаем текущее время и дату
+    now = timezone.now()
+
+    # Получаем начало и конец текущего дня
+    start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    end_of_day = now.replace(hour=23, minute=59, second=59, microsecond=999999)
+
+    # Получаем все заказы за сегодня
+    all_orders_today = Order.objects.filter(order_date__date=now.date())
+
+    # Получаем все заказы за сегодня, которые были доставлены
+    delivered_orders_today = all_orders_today.filter(status='DELIVERED')
+
+    # Вычисляем процент доставленных заказов за сегодня
+    if all_orders_today.exists():
+        percent_delivered = (delivered_orders_today.count() / all_orders_today.count()) * 100
+    else:
+        percent_delivered = 0
+
+    # Возвращаем текущий час и процент доставленных заказов за сегодня в формате JSON
+    return JsonResponse({'current_hour': now.hour, 'percent_delivered': percent_delivered})
 
 
 def top_sales_intervals(request):
-    return None
+    # Получаем текущую дату и время
+    now = timezone.now()
+
+    # Определяем интервалы времени
+    intervals = [
+        (6, 12),  # 6:00 - 12:00
+        (12, 18), # 12:00 - 18:00
+        (18, 24)  # 18:00 - 0:00 (следующий день)
+    ]
+
+    # Создаем словарь для хранения количества заказов для каждого интервала
+    order_counts = {}
+
+    # Получаем количество заказов для каждого интервала
+    for start_hour, end_hour in intervals:
+        # Получаем заказы за сегодня в текущем интервале времени
+        orders_in_interval = Order.objects.filter(
+            order_date__date=now.date(),
+            order_date__hour__range=(start_hour, end_hour - 1)  # -1 чтобы не включать конечное время
+        ).count()
+        order_counts[f"{start_hour}-{end_hour}"] = orders_in_interval
+
+    # Возвращаем количество заказов для каждого интервала в формате JSON
+    return JsonResponse(order_counts)
 
 
 def general_check(request):
@@ -57,4 +102,21 @@ def general_check(request):
 
 
 def all_check(request):
-    return None
+    # Получаем текущую дату и время
+    now = timezone.now()
+
+    # Определяем интервал времени на 25 часов (сегодня и следующий день)
+    start_time = timezone.datetime.combine(now.date(), timezone.datetime.min.time())
+    end_time = start_time + timezone.timedelta(hours=24)
+
+    # Создаем словарь для хранения количества заказов для каждого часа
+    orders_per_hour = defaultdict(int)
+
+    # Получаем количество заказов для каждого часа
+    orders = Order.objects.filter(order_date__range=(start_time, end_time))
+    for order in orders:
+        hour = order.order_date.hour
+        orders_per_hour[hour] += 1
+
+    # Возвращаем словарь с количеством заказов для каждого часа в формате JSON
+    return JsonResponse(dict(orders_per_hour))
