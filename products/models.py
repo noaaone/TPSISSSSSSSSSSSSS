@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Product(models.Model):
     product_name = models.CharField(max_length=255, verbose_name='Название препарата')
     manufacturer = models.CharField(max_length=255, verbose_name='Производитель')
@@ -10,3 +11,6 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.product_name} ({self.product_code})'
+
+
+

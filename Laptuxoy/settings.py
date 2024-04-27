@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "analytics.apps.AnalyticsConfig",
     "stocks.apps.StocksConfig",
     "orders.apps.OrdersConfig",
-    "products.apps.ProductsConfig"
+    "products.apps.ProductsConfig",
+    "rest_framework"
 ]
 
 MIDDLEWARE = [
