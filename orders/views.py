@@ -3,13 +3,16 @@ from collections import defaultdict
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.http import JsonResponse
 from django.utils import timezone
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 from orders.models import Order
 from orders.serializers import OrderSerializer
 
 
 # Create your views here.
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def orders(request, page_number):
     # Определение количества элементов на странице
     items_per_page = 2  # Установите желаемое количество элементов на странице
@@ -38,7 +41,8 @@ def orders(request, page_number):
     # Возврат JSON-ответа с данными
     return JsonResponse(serializer.data, safe=False)
 
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def top_sales_by_hours(request):
     # Получаем текущее время и дату
     now = timezone.now()
@@ -62,7 +66,8 @@ def top_sales_by_hours(request):
     # Возвращаем текущий час и процент доставленных заказов за сегодня в формате JSON
     return JsonResponse({'current_hour': now.hour, 'percent_delivered': percent_delivered})
 
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def top_sales_intervals(request):
     # Получаем текущую дату и время
     now = timezone.now()
@@ -89,7 +94,8 @@ def top_sales_intervals(request):
     # Возвращаем количество заказов для каждого интервала в формате JSON
     return JsonResponse(order_counts)
 
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def general_check(request):
     # Получаем сегодняшнюю дату и время
     now = timezone.now()
@@ -100,7 +106,8 @@ def general_check(request):
     # Возвращаем количество заказов в формате JSON
     return JsonResponse({'order_count': order_count})
 
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def all_check(request):
     # Получаем текущую дату и время
     now = timezone.now()
@@ -109,14 +116,18 @@ def all_check(request):
     start_time = timezone.datetime.combine(now.date(), timezone.datetime.min.time())
     end_time = start_time + timezone.timedelta(hours=24)
 
-    # Создаем словарь для хранения количества заказов для каждого часа
-    orders_per_hour = defaultdict(int)
+    # Создаем словарь для хранения суммы заказов для каждого часа, инициализируем его нулевыми значениями
+    orders_total_per_hour = defaultdict(float)
 
-    # Получаем количество заказов для каждого часа
+    # Создаем словарь для каждого часа и инициализируем его нулевыми значениями
+    for hour in range(24):
+        orders_total_per_hour[hour] = 0.0
+
+    # Получаем сумму заказов для каждого часа
     orders = Order.objects.filter(order_date__range=(start_time, end_time))
     for order in orders:
         hour = order.order_date.hour
-        orders_per_hour[hour] += 1
+        orders_total_per_hour[hour] += float(order.total_cost)
 
-    # Возвращаем словарь с количеством заказов для каждого часа в формате JSON
-    return JsonResponse(dict(orders_per_hour))
+    # Возвращаем словарь с суммой заказов для каждого часа в формате JSON
+    return JsonResponse(dict(orders_total_per_hour))
